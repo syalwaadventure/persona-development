@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><!-- JUDUL BUKU --></title>
+<style>
+/* ============================================================
+   PALET — ubah --accent (dan opsional --accent-2) sesuai topik.
+   Latar gelap (charcoal), teks off-white kontras tinggi.
+   ============================================================ */
+:root{
+  --bg:#12141a;            /* latar utama (charcoal) */
+  --bg-2:#171a21;          /* panel/sidebar */
+  --bg-3:#1e222b;          /* kartu/box */
+  --ink:#eceff4;           /* teks utama off-white */
+  --ink-2:#a8b1c2;         /* teks sekunder */
+  --ink-3:#7b8598;         /* teks tersier */
+  --line:#2b313c;          /* garis */
+  --accent:#4da3ff;        /* aksen 1 */
+  --accent-2:#5fd6a4;      /* aksen 2 (secukupnya) */
+  --warn:#f0a742;          /* peringatan */
+  --radius:10px;
+  --sidebar-w:290px;
+  --maxw:820px;
+  font-size:17px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;}
+a{color:var(--accent);}
+
+/* ---------- PROGRESS MEMBACA ---------- */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);
+  z-index:100;transition:width .1s linear;}
+
+/* ---------- SIDEBAR ---------- */
+#sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:var(--bg-2);border-right:1px solid var(--line);overflow-y:auto;
+  padding:22px 18px 40px;z-index:90;}
+#sidebar .brand{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-3);margin:0 0 6px;}
+#sidebar .book-title{font-size:1rem;font-weight:700;margin:0 0 16px;line-height:1.35;}
+#search{width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--line);
+  background:var(--bg-3);color:var(--ink);font-size:.9rem;font-family:inherit;}
+#search::placeholder{color:var(--ink-3);}
+#search:focus{outline:none;border-color:var(--accent);}
+#searchInfo{font-size:.78rem;color:var(--ink-3);margin:8px 0 0;min-height:1.1em;}
+#sidebar nav{margin-top:16px;}
+#sidebar nav ol{list-style:none;counter-reset:nav;padding:0;margin:0;}
+#sidebar nav>ol>li{counter-increment:nav;margin:2px 0;}
+#sidebar nav a{display:block;padding:7px 10px 7px 34px;border-radius:7px;
+  color:var(--ink-2);text-decoration:none;font-size:.88rem;position:relative;
+  border-left:2px solid transparent;}
+#sidebar nav>ol>li>a::before{content:counter(nav,decimal-leading-zero);
+  position:absolute;left:9px;color:var(--ink-3);font-variant-numeric:tabular-nums;font-size:.8rem;}
+#sidebar nav a:hover{background:var(--bg-3);color:var(--ink);}
+#sidebar nav a.active{background:var(--bg-3);color:var(--accent);
+  border-left-color:var(--accent);font-weight:600;}
+#sidebar nav a.hidden-hit{display:none;}
+
+/* toggle sidebar (mobile) */
+#menuBtn{position:fixed;top:12px;left:12px;z-index:95;display:none;
+  background:var(--bg-3);color:var(--ink);border:1px solid var(--line);
+  border-radius:8px;padding:8px 12px;cursor:pointer;font-size:1rem;font-family:inherit;}
+
+/* ---------- KONTEN ---------- */
+main{margin-left:var(--sidebar-w);padding:0 40px 90px;}
+.wrap{max-width:var(--maxw);margin:0 auto;}
+
+/* ---------- COVER ---------- */
+.cover{padding:96px 0 56px;border-bottom:1px solid var(--line);margin-bottom:8px;}
+.cover .eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;
+  color:var(--accent);margin:0 0 16px;}
+.cover h1{font-size:2.5rem;line-height:1.15;margin:0 0 14px;font-weight:700;letter-spacing:-.02em;}
+.cover .subtitle{font-size:1.15rem;color:var(--ink-2);margin:0 0 32px;max-width:34ch;}
+.cover .meta{font-size:.88rem;color:var(--ink-3);line-height:2;border-top:1px solid var(--line);padding-top:18px;}
+
+/* ---------- HEADING ---------- */
+h2{font-size:1.75rem;margin:2.6em 0 .5em;font-weight:700;letter-spacing:-.01em;
+  scroll-margin-top:24px;padding-bottom:.35em;border-bottom:1px solid var(--line);}
+h3{font-size:1.2rem;margin:2em 0 .4em;color:var(--accent);font-weight:600;}
+h4{font-size:1.02rem;margin:1.5em 0 .3em;color:var(--ink);font-weight:600;}
+p{margin:.75em 0;}
+ul,ol{margin:.6em 0 1em;padding-left:1.4em;}
+li{margin:.32em 0;}
+strong{color:#fff;}
+code{background:var(--bg-3);color:var(--accent-2);padding:.12em .42em;border-radius:5px;
+  font-family:"Consolas","SF Mono",monospace;font-size:.88em;}
+
+/* ---------- BOX / CALLOUT ---------- */
+.box{background:var(--bg-3);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:var(--radius);padding:16px 20px;margin:1.4em 0;}
+.box .box-title{margin:0 0 .35em;font-size:.76rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--accent);}
+.box p:last-child{margin-bottom:0;}
+.box.tip{border-left-color:var(--accent-2);} .box.tip .box-title{color:var(--accent-2);}
+.box.warn{border-left-color:var(--warn);} .box.warn .box-title{color:var(--warn);}
+.box.source{border-left-color:var(--ink-3);} .box.source .box-title{color:var(--ink-3);}
+.box.example{border-left-color:var(--ink-2);} .box.example .box-title{color:var(--ink-2);}
+.box.placeholder{border-left-color:var(--warn);border-style:dashed;}
+.box.placeholder .box-title{color:var(--warn);}
+
+/* ---------- TUJUAN PEMBELAJARAN ---------- */
+.goal{background:linear-gradient(90deg,rgba(77,163,255,.09),transparent);
+  border-left:3px solid var(--accent);border-radius:8px;padding:14px 18px;margin:.6em 0 1.4em;}
+.goal .box-title{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--accent);font-weight:700;margin:0 0 .3em;}
+.chapter-intro{color:var(--ink-2);font-style:italic;border-left:2px solid var(--line);
+  padding-left:16px;margin:.4em 0 1.4em;}
+
+/* ---------- CHECKLIST ---------- */
+.checklist{list-style:none;padding-left:0;}
+.checklist li{padding-left:1.9em;position:relative;margin:.5em 0;}
+.checklist li::before{content:"\2610";position:absolute;left:0;color:var(--accent);font-size:1.05rem;}
+
+/* ---------- BLOK PROMPT / KODE + TOMBOL COPY ---------- */
+.snippet{position:relative;background:#0d0f14;border:1px solid var(--line);
+  border-radius:var(--radius);margin:1.3em 0;overflow:hidden;}
+.snippet .snippet-head{display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px 8px 16px;border-bottom:1px solid var(--line);background:var(--bg-2);}
+.snippet .snippet-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);}
+.snippet pre{margin:0;padding:14px 16px;overflow-x:auto;
+  font-family:"Consolas","SF Mono",monospace;font-size:.85rem;line-height:1.6;
+  color:#dbe3ef;white-space:pre-wrap;word-break:break-word;}
+.copy-btn{background:var(--bg-3);color:var(--ink-2);border:1px solid var(--line);
+  border-radius:6px;padding:4px 10px;font-size:.72rem;cursor:pointer;font-family:inherit;}
+.copy-btn:hover{color:var(--ink);border-color:var(--accent);}
+.copy-btn.done{color:var(--accent-2);border-color:var(--accent-2);}
+
+/* ---------- TABEL ---------- */
+.table-wrap{overflow-x:auto;margin:1.3em 0;}
+table{border-collapse:collapse;width:100%;font-size:.9rem;}
+th,td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top;}
+th{background:var(--bg-2);color:var(--ink);font-weight:600;}
+tr:nth-child(even) td{background:rgba(255,255,255,.018);}
+
+/* ---------- DIAGRAM (SVG inline) ---------- */
+figure{margin:1.5em 0;}
+figure svg{max-width:100%;height:auto;display:block;}
+figcaption{color:var(--ink-3);font-size:.83rem;margin-top:.6em;text-align:center;}
+
+/* ---------- DETAILS ---------- */
+details{border:1px solid var(--line);border-radius:var(--radius);
+  padding:.55em 1.1em;margin:.7em 0;background:var(--bg-3);}
+details summary{cursor:pointer;font-weight:600;color:var(--accent);}
+details[open] summary{margin-bottom:.5em;}
+
+/* ---------- GLOSSARY ---------- */
+.glossary dt{font-weight:700;color:var(--ink);margin-top:1em;}
+.glossary dd{margin:.15em 0 0;color:var(--ink-2);}
+
+/* ---------- BACK TO TOP ---------- */
+#toTop{position:fixed;right:24px;bottom:24px;z-index:95;display:none;
+  background:var(--bg-3);color:var(--ink);border:1px solid var(--line);
+  border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.05rem;}
+#toTop:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ---------- HIGHLIGHT PENCARIAN ---------- */
+mark{background:rgba(77,163,255,.28);color:#fff;border-radius:3px;padding:0 2px;}
+section.dimmed{opacity:.28;}
+
+/* ---------- STATUS & KERAHASIAAN ---------- */
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;}
+.badge{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;
+  padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink-3);}
+.badge.status{border-color:var(--accent);color:var(--accent);}
+.badge.conf{border-color:var(--warn);color:var(--warn);}
+
+/* ---------- CHAPTER OPENER ---------- */
+.chapter-opener{border-top:1px solid var(--line);padding-top:28px;margin-top:12px;}
+.chapter-opener .ch-num{font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;
+  color:var(--ink-3);margin:0 0 4px;}
+
+/* ---------- SECTION CARD ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:1.4em 0;}
+.card{background:var(--bg-3);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
+.card h4{margin:0 0 .3em;color:var(--accent);font-size:.98rem;}
+.card p{margin:0;color:var(--ink-2);font-size:.9rem;}
+
+/* ---------- TIMELINE ---------- */
+.timeline{list-style:none;padding-left:0;margin:1.4em 0;border-left:2px solid var(--line);}
+.timeline li{position:relative;padding:0 0 1.1em 22px;margin:0;}
+.timeline li::before{content:"";position:absolute;left:-7px;top:.55em;width:10px;height:10px;
+  border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+.timeline .tl-when{display:block;font-size:.75rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--ink-3);margin-bottom:2px;}
+
+/* ---------- PROCESS FLOW ---------- */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:1.4em 0;}
+.flow .step{flex:1 1 150px;background:var(--bg-3);border:1px solid var(--line);
+  border-top:3px solid var(--accent);border-radius:var(--radius);padding:13px 15px;}
+.flow .step .n{font-size:.7rem;letter-spacing:.12em;color:var(--ink-3);
+  text-transform:uppercase;display:block;margin-bottom:3px;}
+.flow .step p{margin:0;font-size:.88rem;color:var(--ink-2);}
+.flow .step strong{display:block;color:var(--ink);font-size:.94rem;margin-bottom:2px;}
+
+/* ---------- FAQ / TROUBLESHOOTING ---------- */
+.faq details{background:var(--bg-3);}
+.faq details+details{margin-top:.5em;}
+.trouble .sym{color:var(--warn);}
+
+/* ---------- TOMBOL CETAK ---------- */
+.printbar{display:flex;gap:8px;margin:14px 0 0;}
+.printbar button{flex:1;background:var(--bg-3);color:var(--ink-2);border:1px solid var(--line);
+  border-radius:7px;padding:7px 8px;font-size:.76rem;cursor:pointer;font-family:inherit;}
+.printbar button:hover{color:var(--ink);border-color:var(--accent);}
+.skip-link{position:absolute;left:-9999px;}
+.skip-link:focus{left:12px;top:12px;z-index:200;background:var(--bg-3);color:var(--ink);
+  padding:8px 14px;border:1px solid var(--accent);border-radius:8px;}
+
+/* ---------- RESPONSIF ---------- */
+@media (max-width:1024px){
+  :root{--sidebar-w:250px;}
+  main{padding:0 28px 80px;}
+}
+@media (max-width:820px){
+  #menuBtn{display:block;}
+  #sidebar{transform:translateX(-100%);transition:transform .22s ease;width:280px;}
+  #sidebar.open{transform:translateX(0);}
+  main{margin-left:0;padding:56px 20px 70px;}
+  .cover{padding:40px 0 36px;}
+  .cover h1{font-size:1.85rem;}
+  h2{font-size:1.45rem;}
+  :root{font-size:16px;}
+}
+
+/* ============================================================
+   PRINT — A4, rapi, tanpa elemen layar
+   ============================================================ */
+@page{size:A4;margin:18mm 16mm;}
+@media print{
+  :root{font-size:10.5pt;}
+  body{background:#fff;color:#111;}
+  #sidebar,#menuBtn,#toTop,#progress,.copy-btn,#search,#searchInfo{display:none !important;}
+  main{margin:0;padding:0;}
+  .wrap{max-width:none;}
+  a{color:#111;text-decoration:none;}
+  strong{color:#000;}
+  h2{font-size:16pt;border-bottom:1pt solid #999;page-break-before:always;page-break-after:avoid;}
+  .cover + * h2, section:first-of-type h2{page-break-before:auto;}
+  h3,h4{page-break-after:avoid;color:#111;}
+  h3{font-size:12pt;}
+  p,li{orphans:3;widows:3;}
+  .box,.snippet,.goal,table,figure,details,.table-wrap{page-break-inside:avoid;}
+  .box{background:#f4f6f8;border:1pt solid #bbb;border-left:3pt solid #555;color:#111;}
+  .box .box-title{color:#333;}
+  .snippet{background:#f4f6f8;border:1pt solid #bbb;}
+  .snippet pre{color:#111;}
+  code{background:#eee;color:#111;}
+  th{background:#e8ebef;color:#111;}
+  td,th{border:1pt solid #bbb;}
+  tr:nth-child(even) td{background:#f7f8fa;}
+  .glossary dd,.chapter-intro,figcaption{color:#333;}
+  mark{background:none;color:inherit;}
+  section.dimmed{opacity:1;}
+  .cover{padding:0 0 24pt;border-bottom:1pt solid #999;}
+  .cover h1{font-size:24pt;} .cover .subtitle,.cover .meta{color:#333;}
+  details{border:1pt solid #bbb;background:#f4f6f8;}
+  details:not([open])>*:not(summary){display:block;} /* isi tetap tercetak */
+  .printbar,.skip-link{display:none !important;}
+  .cards{display:block;} .card{page-break-inside:avoid;background:#f4f6f8;border:1pt solid #bbb;margin:0 0 8pt;}
+  .card h4{color:#111;}
+  .card p,.flow .step p,.timeline .tl-when{color:#333;}
+  .flow{display:block;} .flow .step{background:#f4f6f8;border:1pt solid #bbb;
+    border-top:2pt solid #555;margin:0 0 6pt;page-break-inside:avoid;}
+  .timeline{border-left:1pt solid #999;} .timeline li::before{background:#fff;border-color:#555;}
+  .timeline li,.faq details{page-break-inside:avoid;}
+  .badge{border-color:#999;color:#333;} .badge.status,.badge.conf{border-color:#555;color:#111;}
+  .chapter-opener{border-top:none;padding-top:0;}
+  /* --- MODE CETAK GELAP: aktif bila <body class="print-dark"> --- */
+  body.print-dark{background:var(--bg) !important;color:var(--ink) !important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body.print-dark h2{color:var(--ink);border-bottom-color:var(--line);}
+  body.print-dark h3{color:var(--accent);} body.print-dark h4,body.print-dark strong{color:#fff;}
+  body.print-dark a{color:var(--accent);}
+  body.print-dark .box,body.print-dark .card,body.print-dark .flow .step,
+  body.print-dark details,body.print-dark .snippet{background:var(--bg-3);
+    border-color:var(--line);color:var(--ink);}
+  body.print-dark .snippet pre{color:#dbe3ef;} body.print-dark code{background:var(--bg-3);color:var(--accent-2);}
+  body.print-dark th{background:var(--bg-2);color:var(--ink);}
+  body.print-dark td,body.print-dark th{border-color:var(--line);}
+  body.print-dark tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+  body.print-dark .box .box-title{color:var(--accent);}
+  body.print-dark .card h4{color:var(--accent);}
+  body.print-dark .card p,body.print-dark .flow .step p,body.print-dark .glossary dd,
+  body.print-dark .chapter-intro,body.print-dark figcaption,body.print-dark .cover .subtitle,
+  body.print-dark .cover .meta{color:var(--ink-2);}
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#top">Lompat ke isi</a>
+<div id="progress"></div>
+<button id="menuBtn" aria-label="Buka daftar isi">&#9776;</button>
+
+<!-- ================= SIDEBAR / DAFTAR ISI ================= -->
+<aside id="sidebar">
+  <p class="brand"><!-- KATEGORI BUKU --></p>
+  <p class="book-title"><!-- JUDUL BUKU --></p>
+  <input id="search" type="search" placeholder="Cari isi buku..." aria-label="Cari isi buku">
+  <p id="searchInfo"></p>
+  <div class="printbar">
+    <button id="printLight" type="button">Cetak terang</button>
+    <button id="printDark" type="button">Cetak gelap</button>
+  </div>
+  <nav aria-label="Daftar Isi">
+    <!-- TOC: satu <li> per bab, href menuju id section
+    <ol>
+      <li><a href="#bab-1">Judul Bab 1</a></li>
+    </ol>
+    -->
+  </nav>
+</aside>
+
+<!-- ================= KONTEN ================= -->
+<main>
+  <div class="wrap">
+
+    <!-- ---------- COVER ---------- -->
+    <header class="cover" id="top">
+      <p class="eyebrow"><!-- KATEGORI --></p>
+      <h1><!-- JUDUL BUKU --></h1>
+      <!-- Badge: hapus yang tidak dipakai. Label kerahasiaan hanya bila diminta pengguna. -->
+      <div class="badges">
+        <span class="badge status"><!-- Draft / Review / Final --></span>
+        <span class="badge">Versi <!-- x.y --></span>
+        <span class="badge conf"><!-- Internal / Rahasia — hapus bila tidak relevan --></span>
+      </div>
+      <p class="subtitle"><!-- Subjudul satu kalimat --></p>
+      <p class="meta">
+        Untuk: <!-- target pembaca --><br>
+        Penyusun: <!-- penyusun --> &nbsp;•&nbsp; <!-- tanggal --><br>
+        Jenis buku: <!-- handbook / modul / teknis / ... --><br>
+        Perkiraan panjang cetak: <!-- N --> halaman A4
+      </p>
+    </header>
+
+    <!-- ---------- BAB ---------- -->
+    <!-- CHAPTERS: ulangi pola ini. id section harus cocok dengan href di TOC.
+    <section id="bab-1">
+      <h2>Bab 1 — Judul Bab</h2>
+      <div class="goal"><p class="box-title">Tujuan Bab</p><p>Apa yang akan dipahami pembaca.</p></div>
+      <p class="chapter-intro">Kaitan dengan bab sebelumnya.</p>
+
+      <h3>1.1 Subjudul</h3>
+      <p>Isi...</p>
+
+      <div class="box"><p class="box-title">Info</p><p>Penjelasan tambahan.</p></div>
+      <div class="box tip"><p class="box-title">Tips</p><p>Saran praktis.</p></div>
+      <div class="box warn"><p class="box-title">Peringatan</p><p>Hal yang harus dihindari.</p></div>
+      <div class="box example"><p class="box-title">Contoh (Ilustrasi)</p><p>Contoh, bukan fakta sumber.</p></div>
+      <div class="box source"><p class="box-title">Sumber</p><p>Nama dokumen/rujukan.</p></div>
+      <div class="box placeholder"><p class="box-title">Perlu Dilengkapi</p><p>[Perlu dilengkapi: ...]</p></div>
+
+      <div class="snippet">
+        <div class="snippet-head"><span class="snippet-label">Contoh Prompt</span>
+        <button class="copy-btn">Copy</button></div>
+        <pre>Isi prompt di sini.</pre>
+      </div>
+
+      <div class="table-wrap"><table>
+        <tr><th>Kolom</th><th>Kolom</th></tr>
+        <tr><td>Isi</td><td>Isi</td></tr>
+      </table></div>
+
+
+      <div class="cards">
+        <div class="card"><h4>Kartu Bagian</h4><p>Ringkasan satu ide.</p></div>
+        <div class="card"><h4>Kartu Bagian</h4><p>Ringkasan satu ide.</p></div>
+      </div>
+
+      <ol class="timeline">
+        <li><span class="tl-when">Tahap 1</span>Keterangan tahap.</li>
+        <li><span class="tl-when">Tahap 2</span>Keterangan tahap.</li>
+      </ol>
+
+      <div class="flow">
+        <div class="step"><span class="n">Langkah 1</span><strong>Nama langkah</strong><p>Keterangan.</p></div>
+        <div class="step"><span class="n">Langkah 2</span><strong>Nama langkah</strong><p>Keterangan.</p></div>
+      </div>
+
+      <div class="faq">
+        <details><summary>Pertanyaan umum?</summary><p>Jawaban singkat.</p></details>
+      </div>
+
+      <h4>Checklist</h4>
+      <ul class="checklist"><li>Butir periksa.</li></ul>
+
+      <h4>Troubleshooting</h4>
+      <details><summary>Masalah umum?</summary><p>Solusinya.</p></details>
+    </section>
+    -->
+
+    <!-- ---------- GLOSSARY ---------- -->
+    <section id="glossary">
+      <h2>Glossary</h2>
+      <dl class="glossary">
+        <!-- <dt>Istilah</dt><dd>Definisi singkat.</dd> -->
+      </dl>
+    </section>
+
+  </div>
+</main>
+
+<button id="toTop" aria-label="Kembali ke atas">&uarr;</button>
+
+<script>
+(function(){
+  "use strict";
+  var sections = [].slice.call(document.querySelectorAll('main section'));
+  var navLinks = [].slice.call(document.querySelectorAll('#sidebar nav a'));
+  var bar = document.getElementById('progress');
+  var toTop = document.getElementById('toTop');
+  var sidebar = document.getElementById('sidebar');
+  var menuBtn = document.getElementById('menuBtn');
+  var search = document.getElementById('search');
+  var info = document.getElementById('searchInfo');
+
+  /* ---- progress membaca + tombol ke atas + highlight bab aktif ---- */
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    toTop.style.display = h.scrollTop > 400 ? 'block' : 'none';
+    var cur = null;
+    sections.forEach(function(s){
+      if(s.getBoundingClientRect().top <= 120) cur = s.id;
+    });
+    navLinks.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  toTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* ---- sidebar mobile ---- */
+  if(menuBtn){
+    menuBtn.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
+    navLinks.forEach(function(a){
+      a.addEventListener('click', function(){ sidebar.classList.remove('open'); });
+    });
+  }
+
+  /* ---- tombol copy ---- */
+  [].slice.call(document.querySelectorAll('.copy-btn')).forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pre = btn.closest('.snippet').querySelector('pre');
+      var text = pre.innerText;
+      var done = function(){
+        btn.textContent = 'Tersalin'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent='Copy'; btn.classList.remove('done'); }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); done(); }catch(e){}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  /* ---- pencarian isi buku ---- */
+  var originals = sections.map(function(s){ return s.innerHTML; });
+
+  function clearMarks(){
+    sections.forEach(function(s,i){ s.innerHTML = originals[i]; s.classList.remove('dimmed'); });
+    navLinks.forEach(function(a){ a.classList.remove('hidden-hit'); });
+  }
+  function escapeReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+  function highlight(node, re){
+    var hits = 0;
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    var texts = [];
+    while(walker.nextNode()){
+      var n = walker.currentNode;
+      if(n.parentNode && /SCRIPT|STYLE/.test(n.parentNode.nodeName)) continue;
+      if(re.test(n.nodeValue)) texts.push(n);
+      re.lastIndex = 0;
+    }
+    texts.forEach(function(n){
+      var frag = document.createDocumentFragment();
+      var last = 0, m; re.lastIndex = 0;
+      while((m = re.exec(n.nodeValue)) !== null){
+        frag.appendChild(document.createTextNode(n.nodeValue.slice(last, m.index)));
+        var mk = document.createElement('mark'); mk.textContent = m[0];
+        frag.appendChild(mk); last = m.index + m[0].length; hits++;
+        if(m[0].length === 0) re.lastIndex++;
+      }
+      frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return hits;
+  }
+
+  var timer;
+  if(search){
+    search.addEventListener('input', function(){
+      clearTimeout(timer);
+      timer = setTimeout(function(){
+        var q = search.value.trim();
+        clearMarks();
+        if(q.length < 2){ info.textContent = ''; return; }
+        var re = new RegExp(escapeReg(q), 'gi');
+        var total = 0, matchedIds = [];
+        sections.forEach(function(s){
+          var n = highlight(s, re);
+          if(n > 0){ total += n; matchedIds.push(s.id); } else { s.classList.add('dimmed'); }
+        });
+        navLinks.forEach(function(a){
+          var id = a.getAttribute('href').slice(1);
+          a.classList.toggle('hidden-hit', matchedIds.indexOf(id) === -1);
+        });
+        info.textContent = total ? (total + ' hasil di ' + matchedIds.length + ' bab')
+                                 : 'Tidak ditemukan';
+        if(total){
+          var first = document.querySelector('mark');
+          if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+        }
+      }, 220);
+    });
+    search.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ search.value=''; clearMarks(); info.textContent=''; }
+    });
+  }
+
+  /* ---- pastikan semua details terbuka saat mencetak ---- */
+  window.addEventListener('beforeprint', function(){
+    [].slice.call(document.querySelectorAll('details')).forEach(function(d){
+      d.dataset.wasOpen = d.open ? '1' : '0'; d.open = true;
+    });
+    if(search && search.value){ search.value=''; clearMarks(); info.textContent=''; }
+  });
+  window.addEventListener('afterprint', function(){
+    [].slice.call(document.querySelectorAll('details')).forEach(function(d){
+      if(d.dataset.wasOpen === '0') d.open = false;
+    });
+  });
+
+  /* ---- mode cetak: terang (default) / gelap ---- */
+  var pl = document.getElementById('printLight');
+  var pd = document.getElementById('printDark');
+  function doPrint(dark){
+    document.body.classList.toggle('print-dark', !!dark);
+    window.print();
+  }
+  if(pl) pl.addEventListener('click', function(){ doPrint(false); });
+  if(pd) pd.addEventListener('click', function(){ doPrint(true); });
+  window.addEventListener('afterprint', function(){ document.body.classList.remove('print-dark'); });
+
+  /* ---- navigasi keyboard ----
+     /  fokus ke pencarian   j / PageDown  bab berikutnya
+     Esc bersihkan pencarian  k / PageUp    bab sebelumnya
+     Home ke awal buku                                    */
+  function currentIndex(){
+    var idx = 0, top = window.scrollY + 80;
+    for(var i=0;i<sections.length;i++){ if(sections[i].offsetTop <= top) idx = i; }
+    return idx;
+  }
+  function goSection(delta){
+    if(!sections.length) return;
+    var t = Math.min(Math.max(currentIndex()+delta, 0), sections.length-1);
+    sections[t].scrollIntoView({behavior:'smooth', block:'start'});
+    var h = sections[t].querySelector('h2');
+    if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); }
+  }
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    var typing = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
+    if(typing) return;
+    if(e.key === '/'){ e.preventDefault(); if(search) search.focus(); return; }
+    if(e.key === 'j' || e.key === 'PageDown'){ e.preventDefault(); goSection(1); return; }
+    if(e.key === 'k' || e.key === 'PageUp'){ e.preventDefault(); goSection(-1); return; }
+    if(e.key === 'Home'){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
+  });
+})();
+</script>
+</body>
+</html>
