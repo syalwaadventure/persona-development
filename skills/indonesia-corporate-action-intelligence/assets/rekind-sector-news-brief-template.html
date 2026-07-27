@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rekind Sector Intelligence Brief — {{DATE}}</title>
+<style>
+:root{--bg:#0c1118;--panel:#151d28;--panel2:#1d2835;--text:#edf3f8;--muted:#aab8c5;--line:#314154;--accent:#59b6ff;--high:#ff7070;--medium:#f7c85c;--low:#75d49b;--risk:#ff8b8b;--opp:#7ae0b0}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:1180px;margin:auto;padding:32px 24px 72px}header,.panel,.item{background:var(--panel);border:1px solid var(--line);border-radius:16px}header{padding:28px;margin-bottom:22px}h1{margin:0 0 8px;font-size:clamp(27px,4vw,44px);line-height:1.12}h2{margin:34px 0 14px;font-size:24px}h3{margin:0 0 8px}.meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--muted)}.pill,.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:12px}.badge.high{color:var(--high)}.badge.medium{color:var(--medium)}.badge.low{color:var(--low)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.panel{padding:18px}.signal{border-left:4px solid var(--accent)}.item{padding:20px;margin:12px 0}.item p{margin:7px 0}.label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.facts{background:var(--panel2);padding:12px;border-radius:10px}.path{border-left:3px solid var(--accent);padding-left:12px}.bar-row{display:grid;grid-template-columns:170px 1fr 40px;gap:10px;align-items:center;margin:9px 0}.bar{height:10px;background:#263545;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;background:var(--accent)}table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}th,td{border:1px solid var(--line);padding:10px;vertical-align:top;text-align:left}th{background:var(--panel2)}.scroll{overflow-x:auto}.risk{color:var(--risk)}.opp{color:var(--opp)}a{color:var(--accent)}footer{margin-top:36px;color:var(--muted);font-size:13px}@media print{body{background:#fff;color:#111}.wrap{max-width:none;padding:0}header,.panel,.item{background:#fff;border-color:#aaa;break-inside:avoid}.meta,.label,footer{color:#444}h2{break-after:avoid}a{color:#111;text-decoration:none}}@page{size:A4;margin:14mm}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <div class="label">Business Intelligence • Four-Sector Scope</div>
+  <h1>Rekind Sector Intelligence Brief</h1>
+  <div class="meta">
+    <span class="pill">Tanggal: {{DATE}}</span>
+    <span class="pill">Periode: {{COVERAGE_PERIOD}}</span>
+    <span class="pill">Estimasi baca: {{READ_TIME}}</span>
+    <span class="pill">Sumber diperiksa: {{SOURCE_COUNT}}</span>
+  </div>
+  <p>{{EXECUTIVE_CONTEXT}}</p>
+</header>
+
+<h2>Executive Signals</h2>
+<section class="grid">
+  <!-- 3–5 cards. Each card must state development + why it matters. -->
+  <article class="panel signal"><h3>{{SIGNAL_TITLE}}</h3><p>{{SIGNAL_SUMMARY}}</p><span class="badge high">{{RELEVANCE}}</span></article>
+</section>
+
+<h2>Cross-Sector Dashboard</h2>
+<section class="panel">
+  <div class="bar-row"><span>Energi & Listrik</span><div class="bar"><span style="width:{{ENERGY_BAR}}%"></span></div><b>{{ENERGY_COUNT}}</b></div>
+  <div class="bar-row"><span>Oil & Gas</span><div class="bar"><span style="width:{{OILGAS_BAR}}%"></span></div><b>{{OILGAS_COUNT}}</b></div>
+  <div class="bar-row"><span>Petrokimia</span><div class="bar"><span style="width:{{PETROCHEM_BAR}}%"></span></div><b>{{PETROCHEM_COUNT}}</b></div>
+  <div class="bar-row"><span>Pupuk</span><div class="bar"><span style="width:{{FERTILIZER_BAR}}%"></span></div><b>{{FERTILIZER_COUNT}}</b></div>
+</section>
+
+<!-- Repeat only sectors with material developments. -->
+<h2>{{SECTOR_NAME}}</h2>
+<section>
+  <article class="item">
+    <div class="meta"><span class="badge {{RELEVANCE_CLASS}}">{{RELEVANCE}}</span><span class="pill">{{STATUS}}</span><span class="pill">{{HORIZON}}</span></div>
+    <h3>{{HEADLINE}}</h3>
+    <p>{{LATEST_DEVELOPMENT}}</p>
+    <div class="facts"><strong>Fakta kunci:</strong> {{KEY_FACTS}}</div>
+    <p><strong>Why it matters for Rekind:</strong> {{REKIND_RELEVANCE}}</p>
+    <p class="path"><strong>Transmission path:</strong> {{TRANSMISSION_PATH}}</p>
+    <p><strong>Risk/Opportunity signal:</strong> {{RISK_OPPORTUNITY}}</p>
+    <p><strong>Next indicator:</strong> {{NEXT_SIGNAL}}</p>
+    <p class="meta">Sumber: {{SOURCES_AND_DATES}} • Confidence: {{CONFIDENCE}}</p>
+  </article>
+</section>
+
+<h2>Global-to-Indonesia Transmission</h2>
+<div class="panel scroll"><table>
+<thead><tr><th>Global Event</th><th>Sector Mechanism</th><th>Indonesia Channel</th><th>Potential Rekind Relevance</th><th>Horizon</th><th>Confidence</th></tr></thead>
+<tbody><tr><td>{{GLOBAL_EVENT}}</td><td>{{MECHANISM}}</td><td>{{INDONESIA_CHANNEL}}</td><td>{{REKIND_CHANNEL}}</td><td>{{HORIZON}}</td><td>{{CONFIDENCE}}</td></tr></tbody>
+</table></div>
+
+<h2>Opportunity and Risk Signals</h2>
+<div class="grid">
+  <section class="panel"><h3 class="opp">Opportunity Signals</h3><p>{{OPPORTUNITY_SIGNALS}}</p></section>
+  <section class="panel"><h3 class="risk">Risk Signals</h3><p>{{RISK_SIGNALS}}</p></section>
+</div>
+
+<h2>All-Items Scan Table</h2>
+<div class="panel scroll"><table>
+<thead><tr><th>Sector</th><th>Party/Project</th><th>Latest Change</th><th>Status</th><th>Source & Date</th><th>Relevance</th><th>Next Signal</th></tr></thead>
+<tbody><tr><td>{{SECTOR}}</td><td>{{PARTY}}</td><td>{{CHANGE}}</td><td>{{STATUS}}</td><td>{{SOURCE}}</td><td>{{RELEVANCE}}</td><td>{{NEXT_SIGNAL}}</td></tr></tbody>
+</table></div>
+
+<h2>Upcoming Indicators</h2>
+<section class="panel">{{UPCOMING_INDICATORS}}</section>
+
+<h2>Source Coverage and Limitations</h2>
+<section class="panel">
+  <p><strong>Official sources:</strong> {{OFFICIAL_SOURCES}}</p>
+  <p><strong>Indonesian media:</strong> {{LOCAL_MEDIA_SOURCES}}</p>
+  <p><strong>International media, including CNBC International:</strong> {{INTERNATIONAL_SOURCES}}</p>
+  <p><strong>Inaccessible/not verified:</strong> {{ACCESS_LIMITATIONS}}</p>
+  <p><strong>Information gaps:</strong> {{INFORMATION_GAPS}}</p>
+</section>
+
+<footer>Analisis ini merupakan ringkasan informasi publik untuk kebutuhan intelijen bisnis dan bukan rekomendasi investasi atau keputusan resmi perusahaan.</footer>
+</main>
+</body>
+</html>

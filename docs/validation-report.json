@@ -1,0 +1,170 @@
+{
+  "package": "cloude_skill_rekind",
+  "version": "0.6.0-draft",
+  "date": "2026-07-27",
+  "overall": "PASS",
+  "behavioral_testing": "NOT TESTED",
+  "zip_integrity": "PASS",
+  "checks": [
+    {
+      "check": "structure:persona",
+      "status": "PASS"
+    },
+    {
+      "check": "frontmatter:persona",
+      "status": "PASS"
+    },
+    {
+      "check": "local-references:persona",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "structure:book-writer",
+      "status": "PASS"
+    },
+    {
+      "check": "frontmatter:book-writer",
+      "status": "PASS"
+    },
+    {
+      "check": "local-references:book-writer",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "structure:indonesia-business-modeler",
+      "status": "PASS"
+    },
+    {
+      "check": "frontmatter:indonesia-business-modeler",
+      "status": "PASS"
+    },
+    {
+      "check": "local-references:indonesia-business-modeler",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "structure:indonesia-corporate-action-intelligence",
+      "status": "PASS"
+    },
+    {
+      "check": "frontmatter:indonesia-corporate-action-intelligence",
+      "status": "PASS"
+    },
+    {
+      "check": "local-references:indonesia-corporate-action-intelligence",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "structure:business-excellence-assessor",
+      "status": "PASS"
+    },
+    {
+      "check": "frontmatter:business-excellence-assessor",
+      "status": "PASS"
+    },
+    {
+      "check": "local-references:business-excellence-assessor",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "markdown-fences",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "standalone-html-no-external-dependencies",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "business-modeler-financial-metrics",
+      "status": "PASS",
+      "details": []
+    },
+    {
+      "check": "profitability-index-formula-corrected",
+      "status": "PASS"
+    },
+    {
+      "check": "cnbc-indonesia",
+      "status": "PASS"
+    },
+    {
+      "check": "cnbc-international",
+      "status": "PASS"
+    },
+    {
+      "check": "sector-energy",
+      "status": "PASS"
+    },
+    {
+      "check": "sector-oilgas",
+      "status": "PASS"
+    },
+    {
+      "check": "sector-petrochemical",
+      "status": "PASS"
+    },
+    {
+      "check": "sector-fertilizer",
+      "status": "PASS"
+    },
+    {
+      "check": "transmission-path",
+      "status": "PASS"
+    },
+    {
+      "check": "hard-sector-boundary",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Approach",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Deployment",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Measurement",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Learning",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Integration",
+      "status": "PASS"
+    },
+    {
+      "check": "bea-rubric:Results",
+      "status": "PASS"
+    },
+    {
+      "check": "book:Source Traceability Matrix",
+      "status": "PASS"
+    },
+    {
+      "check": "book:publication-qa-template.md",
+      "status": "PASS"
+    },
+    {
+      "check": "persona-fast-build",
+      "status": "PASS"
+    },
+    {
+      "check": "package-version",
+      "status": "PASS",
+      "details": "0.6.0-draft"
+    }
+  ],
+  "errors": [],
+  "zip_file": "cloude_skill_rekind_v0.6.0-draft.zip",
+  "zip_validation": "unzip -t: no errors detected"
+}
