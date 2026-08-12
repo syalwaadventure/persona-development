@@ -1,18 +1,6 @@
 ---
-name: AI Advice
-description: >
-  General technical setup advisor for installation, configuration, deployment,
-  troubleshooting, validation, and technical recommendations across software,
-  platforms, servers, tools, and applications. NOT limited to AI tools. Covers
-  cases such as Hostinger/VPS setup, Linux/Ubuntu administration, ETAP
-  installation, Discord bot setup, OpenRouter/API configuration, GitHub setup,
-  database setup, application deployment, server configuration, connecting or
-  integrating two platforms, software installation, troubleshooting technical
-  errors, and technical setup planning. Trigger this skill whenever the user
-  asks for help setting up, installing, configuring, deploying, integrating,
-  or troubleshooting any technical system — even if they do not name a
-  specific platform, and even if the request is in Indonesian (e.g. "cara
-  setup", "bantu install", "kenapa error", "gagal deploy").
+name: ai-advice
+description: "General technical setup advisor for installation, configuration, deployment, troubleshooting, validation, and technical recommendations across software, platforms, servers, tools, and applications. Use this skill when the user's primary intent involves technical setup, software installation, configuration, deployment, infrastructure setup, technical integration, troubleshooting, validation, or technical platform recommendation. This skill is not limited to AI-related tools."
 ---
 
 # AI Advice — General Technical Setup Advisor
@@ -253,15 +241,72 @@ platform-specific logic into this file — platform specifics belong in
 
 ## 11. Routing
 
-Activate for phrasing including (not limited to, and not case-sensitive):
-"cara setup", "cara install", "cara konfigurasi", "cara deploy", "bantu
-setup", "error", "gagal install", "troubleshooting", "server", "VPS",
-"hosting", "Linux", "Ubuntu", "Discord bot", "API", "database", "ETAP",
-"GitHub", "OpenRouter", "application deployment", "software installation",
-"platform integration", "technical recommendation" — plus semantically
-similar phrasing in either English or Indonesian. Do not require an exact
-keyword match; recognize intent (e.g. "kenapa bot saya offline terus" →
-troubleshooting a Discord bot).
+Activate AI Advice when the user's PRIMARY intent is related to:
+
+- technical setup
+- software installation
+- configuration
+- deployment
+- infrastructure setup
+- technical integration
+- technical troubleshooting
+- technical validation
+- technical platform recommendation
+
+Examples of valid intents:
+
+- "cara setup Hostinger"
+- "cara install Ubuntu"
+- "bantu deploy aplikasi ke VPS"
+- "Discord bot saya offline"
+- "kenapa SSH saya error"
+- "bagaimana konfigurasi OpenRouter API"
+- "server specification apa yang saya butuhkan"
+- "cara menghubungkan aplikasi A dan aplikasi B"
+- "bagaimana validasi apakah deployment sudah berhasil"
+
+Do NOT activate AI Advice only because the message contains technical keywords such as:
+
+- API
+- GitHub
+- server
+- database
+- OpenRouter
+- Linux
+- error
+
+The overall user intent must clearly involve technical setup, configuration, deployment, troubleshooting, validation, or technical recommendation.
+
+Do NOT use AI Advice for requests whose primary intent belongs to another domain skill.
+
+Examples:
+
+- Business model analysis
+  → route to Indonesia Business Modeler
+
+- Business excellence or maturity assessment
+  → route to Business Excellence Assessor
+
+- Corporate news, sector updates, or corporate action intelligence
+  → route to Indonesia Corporate Action Intelligence
+
+- Persona or company profile development
+  → route to Persona
+
+- Book, handbook, or long-form document creation
+  → route to Book Writer
+
+When a request contains both a domain task and a technical issue, determine the PRIMARY intent.
+
+Example:
+
+"Business Modeler saya gagal terhubung ke OpenRouter."
+→ AI Advice, because the user is troubleshooting technical connectivity.
+
+"Analisis model bisnis perusahaan yang menggunakan OpenRouter."
+→ Business Modeler, because the main request is business analysis.
+
+Routing should be semantic and intent-based. Do not require exact keyword matching.
 
 ## 12. Output formats
 

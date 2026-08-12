@@ -1,10 +1,6 @@
 ---
 name: indonesia-business-modeler
-description: >-
-  Menganalisis bagaimana perusahaan, unit bisnis, layanan, atau proyek di
-  Indonesia menciptakan nilai, menjalankan proses, memperoleh pendapatan,
-  menanggung biaya, menghasilkan laba, mengelola arus kas, menilai kelayakan
-  investasi, dan mengevaluasi peluang bisnis secara evidence-based.
+description: "Menganalisis bagaimana perusahaan, unit bisnis, layanan, atau proyek di Indonesia menciptakan nilai, menjalankan proses, memperoleh pendapatan, menanggung biaya, menghasilkan laba, mengelola arus kas, menilai kelayakan investasi, dan mengevaluasi peluang bisnis secara evidence-based."
 ---
 
 # Indonesia Business Modeler
